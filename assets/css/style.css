@@ -1,41 +1,42 @@
-
-
-body, html {
-    height: 100%;
+body,
+html {
+  height: 100%;
 }
-.bg { 
-    /* The image used */
-    background-image: url("../images/bassnectar-red-rocks-night-2.jpg");
+.bg {
+  /* The image used */
+  background-image: url("../images/bassnectar-red-rocks-night-2.jpg");
 
-    /* Full height */
-    height: 100%; 
+  /* Full height */
+  height: 100%;
 
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #header {
-    text-align: center;
-    margin: 20px;
-    margin-bottom: 50px;
+  text-align: center;
+  margin: 20px;
+  margin-bottom: 50px;
 }
 
 .logo {
-    height: 100px;
-    width: 100px;
+  height: 100px;
+  width: 100px;
 }
 
 .stuff {
-    background-color: black;
-    opacity: 0.8;
+  background-color: black;
+  opacity: 0.8;
 }
 
 h1 {
-    font-weight: 900;
+  font-weight: 900;
 }
 
-#showWord {
-    height: 40px;
+#showWord,
+#lettersAlreadyGuessed,
+#guessesLeft {
+  height: 40px;
 }

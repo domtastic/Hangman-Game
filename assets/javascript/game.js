@@ -4,6 +4,13 @@ var guessesLeft = 9;
 var lettersGuessed = [];
 var currentWord = "";
 var songIndex = 0;
+var totalLettersGuessed;
+var answerArray = [];
+var currentWordArray = [];
+var lettersAlreadyGuessedDOM = $("#lettersAlreadyGuessed");
+var soundCLick = new Audio("./assets/audio/click.mp3");
+var soundError = new Audio("./assets/audio/error.mp3");
+var previousWord = "0";
 
 //  --------------------------------------------
 // array of songs that we will be guessing
@@ -15,7 +22,7 @@ var song = [
   "fun",
   "now",
   "mind tricks",
-  "freestyle",
+  "you and me",
   "timestretch",
   "slather",
   "boombox",
@@ -30,9 +37,11 @@ $(".btn-success").click(setUpGame);
 function setUpGame() {
   guessesLeft = 9;
   lettersGuessed = [];
-  var totalLettersGuessed = [];
-  var answerArray = [];
-  var currentWordArray = [];
+  totalLettersGuessed = [];
+  answerArray = [];
+  currentWordArray = [];
+  lettersAlreadyGuessedDOM.text("");
+  console.log(previousWord);
 
   $("#guessesLeft").html(guessesLeft);
   $("#wins").html(wins);
@@ -49,65 +58,104 @@ function setUpGame() {
     currentWordArray.push(currentWord[index]);
 
     if (currentWord[index] === " ") {
-      answerArray[index] = "&nbsp";
+      answerArray[index] = " ";
     } else {
-      answerArray[index] = "_";
+      answerArray[index] = "   _   ";
     }
     $("#showWord").html(answerArray.join(" "));
   }
   console.log(currentWordArray);
   // when a player presses a key convert it to a letter
-  document.onkeyup = function(event) {
-    var letter = String.fromCharCode(event.keyCode).toLowerCase();
-    console.log(letter);
+}
 
-    // check to see if letter has already been guessed.
-    var alreadyGuessed = totalLettersGuessed.indexOf(letter);
-    if (alreadyGuessed >= 0) {
-      alert("You already guessed " + letter);
-    }
+$(document).on("keyup", function(event) {
+  var letter = String.fromCharCode(event.keyCode).toLowerCase();
+  console.log(letter);
 
+  // check to see if letter has already been guessed.
+  var alreadyGuessed = totalLettersGuessed.indexOf(letter);
+  if (alreadyGuessed >= 0) {
+    alert("You already guessed " + letter);
+  } else {
     totalLettersGuessed.push(letter);
-    console.log(totalLettersGuessed);
+  }
 
-    // / if it matches any of the letters, replace _ with letter --- NEED TO FIX
-
-    var inWord = currentWordArray.indexOf(letter);
-    console.log(inWord);
-    if (inWord >= 0) {
-      answerArray[index] = letter;
+  for (var i = 0; i < currentWordArray.length; i++) {
+    if (currentWordArray[i] === letter) {
+      answerArray[i] = letter;
       console.log(answerArray);
-
+      soundCLick.play();
       $("#showWord").html(answerArray);
     }
+    // subtract from guesses left
+    // guessesLeft--;
+    // update the html with the value
+  }
 
-    // for (var index = 0; index < currentWordArray.length; index++) {
-    //   if (currentWordArray[index] === letter) {
-    //     answerArray[index] = letter;
-    //     console.log(answerArray);
-
-    //     $("#showWord").html(answerArray);
-    //   } else {
-    //     // if it is a wrong guess add to letters guessed
-    //     if ((lettersGuessed.length = 0)) {
-    //       lettersGuessed.push(letter);
-    //     } else {
-    //       lettersGuessed.push(", " + letter);
-    //     }
-    //     $("#letterAlreadyGuessed").html(lettersGuessed);
-    //   }
-
-    //   // subtract from guesses left
-    //   // guessesLeft--;
-    //   // update the html with the value
-    // }
-
-    // if guesses left = 0, you lose
-
+  if (currentWordArray.indexOf(letter) == -1 && alreadyGuessed < 0) {
+    // if it is a wrong guess add to letters guessed
+    if (lettersAlreadyGuessedDOM.text() == "") {
+      lettersGuessed.push(letter);
+    } else {
+      lettersGuessed.push(", " + letter);
+    }
+    lettersAlreadyGuessedDOM.html(lettersGuessed);
+    --guessesLeft;
+    soundError.play();
+    $("#guessesLeft").html(guessesLeft);
+  }
+  // if guesses left = 0, you lose
+  if (guessesLeft === 0) {
+    winsLoss("You Lose");
     // if asnwerArray = currentWord, yoo win!
+  } else if (answerArray.join("") == currentWordArray.join("")) {
+    winsLoss("You Win");
 
+    var music = {
+      speakerbox: new Audio("./assets/audio/Bassnectar-Speakerbox.mp3"),
+      "bass head": new Audio("./assets/audio/Bassnectar-Bass Head.mp3"),
+      butterfly: new Audio("./assets/audio/Bassnectar-Butterfly.mp3"),
+      fun: new Audio("./assets/audio/Bassnectar-FUN.mp3"),
+      now: new Audio("./assets/audio/Bassnectar-Now.mp3"),
+      "mind tricks": new Audio("./assets/audio/Bassnectar-Mind Tricks.mp3"),
+      "you and me": new Audio("./assets/audio/Bassnectar-YouAndMe.mp3"),
+      timestretch: new Audio("./assets/audio/Bassnectar-Timestretch.mp3"),
+      slather: new Audio("./assets/audio/Bassnectar-Slather.mp3"),
+      boombox: new Audio("./assets/audio/Bassnectar-Boombox.mp3"),
+      fsof: new Audio("./assets/audio/Bassnectar-Fsosf.mp3"),
+      "ping pong": new Audio("./assets/audio/Bassnectar-Ping Pong.mp3"),
+      zodgilla: new Audio("./assets/audio/Bassnectar-Zodgilla.mp3")
+    };
     // add 1 to win
+    ++wins;
+    if (previousWord != "0") {
+      console.log("stop playing music");
+      // NEED TO FIX - music won't stop or pause.....
+      music[previousWord].pause();
+      music[previousWord].currentTime = 0;
+    }
 
-    // rest game
-  };
-}
+    music[currentWord].play();
+    previousWord = currentWord;
+    console.log(previousWord);
+    $("wins").html(wins);
+  }
+
+  function winsLoss(wL) {
+    $("#winLoss").html(wL);
+    setTimeout(wipeOut, 3000);
+
+    // function setTimeout(func, amountOfTime) {
+    //   //after amountOfTime gets done run
+    //   func()
+    // }
+  }
+
+  function wipeOut() {
+    $("#winLoss").html("");
+    // reset game
+    setUpGame();
+  }
+
+  // }
+});
