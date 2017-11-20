@@ -11,7 +11,21 @@ var lettersAlreadyGuessedDOM = $("#lettersAlreadyGuessed");
 var soundCLick = new Audio("./assets/audio/click.mp3");
 var soundError = new Audio("./assets/audio/error.mp3");
 var previousWord = "0";
-
+var music = {
+  speakerbox: new Audio("./assets/audio/Bassnectar-Speakerbox.mp3"),
+  "bass head": new Audio("./assets/audio/Bassnectar-Bass Head.mp3"),
+  butterfly: new Audio("./assets/audio/Bassnectar-Butterfly.mp3"),
+  fun: new Audio("./assets/audio/Bassnectar-FUN.mp3"),
+  now: new Audio("./assets/audio/Bassnectar-Now.mp3"),
+  "mind tricks": new Audio("./assets/audio/Bassnectar-Mind Tricks.mp3"),
+  "you and me": new Audio("./assets/audio/Bassnectar-YouAndMe.mp3"),
+  timestretch: new Audio("./assets/audio/Bassnectar-Timestretch.mp3"),
+  slather: new Audio("./assets/audio/Bassnectar-Slather.mp3"),
+  boombox: new Audio("./assets/audio/Bassnectar-Boombox.mp3"),
+  fsof: new Audio("./assets/audio/Bassnectar-Fsosf.mp3"),
+  "ping pong": new Audio("./assets/audio/Bassnectar-Ping Pong.mp3"),
+  zodgilla: new Audio("./assets/audio/Bassnectar-Zodgilla.mp3")
+};
 //  --------------------------------------------
 // array of songs that we will be guessing
 //
@@ -111,26 +125,10 @@ $(document).on("keyup", function(event) {
   } else if (answerArray.join("") == currentWordArray.join("")) {
     winsLoss("You Win");
 
-    var music = {
-      speakerbox: new Audio("./assets/audio/Bassnectar-Speakerbox.mp3"),
-      "bass head": new Audio("./assets/audio/Bassnectar-Bass Head.mp3"),
-      butterfly: new Audio("./assets/audio/Bassnectar-Butterfly.mp3"),
-      fun: new Audio("./assets/audio/Bassnectar-FUN.mp3"),
-      now: new Audio("./assets/audio/Bassnectar-Now.mp3"),
-      "mind tricks": new Audio("./assets/audio/Bassnectar-Mind Tricks.mp3"),
-      "you and me": new Audio("./assets/audio/Bassnectar-YouAndMe.mp3"),
-      timestretch: new Audio("./assets/audio/Bassnectar-Timestretch.mp3"),
-      slather: new Audio("./assets/audio/Bassnectar-Slather.mp3"),
-      boombox: new Audio("./assets/audio/Bassnectar-Boombox.mp3"),
-      fsof: new Audio("./assets/audio/Bassnectar-Fsosf.mp3"),
-      "ping pong": new Audio("./assets/audio/Bassnectar-Ping Pong.mp3"),
-      zodgilla: new Audio("./assets/audio/Bassnectar-Zodgilla.mp3")
-    };
     // add 1 to win
     ++wins;
     if (previousWord != "0") {
       console.log("stop playing music");
-      // NEED TO FIX - music won't stop or pause.....
       music[previousWord].pause();
       music[previousWord].currentTime = 0;
     }
