@@ -92,22 +92,19 @@ $(document).on("keyup", function(event) {
     alert("You already guessed " + letter);
   } else {
     totalLettersGuessed.push(letter);
-  }
-
-  for (var i = 0; i < currentWordArray.length; i++) {
-    if (currentWordArray[i] === letter) {
-      answerArray[i] = letter;
-      console.log(answerArray);
-      soundCLick.play();
-      $("#showWord").html(answerArray);
+    for (var i = 0; i < currentWordArray.length; i++) {
+      if (currentWordArray[i] === letter) {
+        answerArray[i] = letter;
+        console.log(answerArray);
+        // update the html with the value
+        soundCLick.play();
+        $("#showWord").html(answerArray);
+      }
     }
-    // subtract from guesses left
-    // guessesLeft--;
-    // update the html with the value
   }
 
   if (currentWordArray.indexOf(letter) == -1 && alreadyGuessed < 0) {
-    // if it is a wrong guess add to letters guessed
+    // if it is a wrong guess add to letters guessed and subtract guesses left
     if (lettersAlreadyGuessedDOM.text() == "") {
       lettersGuessed.push(letter);
     } else {

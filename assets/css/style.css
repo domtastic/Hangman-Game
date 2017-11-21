@@ -40,3 +40,7 @@ h1 {
 #guessesLeft {
   height: 40px;
 }
+
+.btn-margin {
+  margin-right: 10px;
+}
